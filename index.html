@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Neon Highway - Car Racing</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="game-shell">
+    <canvas id="gameCanvas" width="900" height="560"></canvas>
+
+    <div class="hud">
+      <div>🏁 Score <strong id="score">0</strong></div>
+      <div>❤️ Lives <strong id="lives">3</strong></div>
+      <div>⚡ Level <strong id="level">1</strong></div>
+      <div>🏆 Best <strong id="best">0</strong></div>
+    </div>
+
+    <section id="overlay" class="overlay">
+      <div class="panel">
+        <h1 id="title">NEON HIGHWAY</h1>
+        <p id="message">
+          Dodge the traffic, collect energy and survive as long as possible.
+        </p>
+        <p class="controls-text">
+          <b>Keyboard:</b> ← → / A D &nbsp • &nbsp P = Pause &nbsp • &nbsp R = Restart
+        </p>
+        <button id="mainButton">START RACE</button>
+      </div>
+    </section>
+
+    <div class="touch-controls">
+      <button data-key="left">◀</button>
+      <button data-key="right">▶</button>
+    </div>
+  </main>
+
+  <script src="game.js"></script>
+</body>
+</html>
