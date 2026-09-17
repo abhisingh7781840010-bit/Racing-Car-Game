@@ -14,11 +14,13 @@ const mainButton = document.getElementById("mainButton");
 const W = canvas.width;
 const H = canvas.height;
 
-const backgroundMusic = new Audio("game sound.mp3");
+const backgroundMusic = new Audio("game%20sound.mp3");
 backgroundMusic.loop = true;
 backgroundMusic.volume = 0.45;
+backgroundMusic.preload = "auto";
 
 let audioCtx = null;
+let soundUnlocked = false;
 
 function ensureAudioContext() {
   if (!audioCtx) {
@@ -28,14 +30,27 @@ function ensureAudioContext() {
   }
 
   if (audioCtx.state === "suspended") {
-    audioCtx.resume();
+    audioCtx.resume().catch(() => {});
   }
 
   return audioCtx;
 }
 
+function unlockGameAudio() {
+  if (soundUnlocked) return;
+
+  ensureAudioContext();
+  soundUnlocked = true;
+  startBackgroundMusic();
+}
+
 function startBackgroundMusic() {
   if (!backgroundMusic) return;
+
+  if (!soundUnlocked) {
+    unlockGameAudio();
+    return;
+  }
 
   backgroundMusic.currentTime = 0;
   backgroundMusic.play().catch(() => {});
@@ -269,6 +284,7 @@ function endGame() {
 }
 
 function startGame() {
+  unlockGameAudio();
   resetGame();
   gameState = "playing";
   overlay.classList.add("hidden");
@@ -538,12 +554,17 @@ document.querySelectorAll(".touch-controls button").forEach(button => {
 });
 
 mainButton.addEventListener("click", () => {
+  unlockGameAudio();
+
   if (gameState === "paused") {
     pauseGame();
   } else {
     startGame();
   }
 });
+
+window.addEventListener("pointerdown", unlockGameAudio, { once: true });
+window.addEventListener("keydown", unlockGameAudio, { once: true });
 
 // Initial screen.
 render();
