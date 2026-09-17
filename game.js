@@ -87,42 +87,9 @@ for (const src of enemyCarImageSources) {
   const enemyImage = new Image();
   enemyImage.src = src;
   enemyImage.onload = () => {
-    enemyCarImages.push(stripBlackBackground(enemyImage));
+    enemyCarImages.push(enemyImage);
   };
 }
-
-function stripBlackBackground(image) {
-  const canvas = document.createElement("canvas");
-  const ctx2 = canvas.getContext("2d");
-
-  canvas.width = image.width;
-  canvas.height = image.height;
-  ctx2.drawImage(image, 0, 0);
-
-  const imageData = ctx2.getImageData(0, 0, canvas.width, canvas.height);
-  const { data } = imageData;
-
-  for (let i = 0; i < data.length; i += 4) {
-    const r = data[i];
-    const g = data[i + 1];
-    const b = data[i + 2];
-    const a = data[i + 3];
-
-    if (a > 0 && r < 90 && g < 90 && b < 90) {
-      data[i + 3] = 0;
-    }
-  }
-
-  ctx2.putImageData(imageData, 0, 0);
-
-  const processed = new Image();
-  processed.src = canvas.toDataURL("image/png");
-  return processed;
-}
-
-playerImage.onload = () => {
-  playerImage = stripBlackBackground(playerImage);
-};
 
 const input = {
   left: false,
