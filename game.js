@@ -101,7 +101,6 @@ let score = 0;
 let lives = 3;
 let level = 1;
 let best = Number(localStorage.getItem("neonHighwayBest") || 0);
-
 let lastTime = 0;
 let roadOffset = 0;
 let trafficTimer = 0;
@@ -111,7 +110,7 @@ let shake = 0;
 const player = {
   x: W / 2 - 31,
   y: H - 112,
-  width: 62,
+  width: 72,
   height: 92,
   speed: 410,
   invincible: 0
@@ -167,9 +166,9 @@ function spawnTraffic() {
   traffic.push({
     x: laneCenter(lane) - 31,
     y: -110,
-    width: 62,
+    width: 72,
     height: 92,
-    speed: 190 + level * 22 + Math.random() * 60,
+    speed: 200 + level * 22 + Math.random() * 60,
     sprite: randomEnemyCarImage()
   });
 }
@@ -199,8 +198,9 @@ function circleHitsRect(circle, rect) {
   const nearestY = Math.max(rect.y, Math.min(circle.y, rect.y + rect.height));
   const dx = circle.x - nearestX;
   const dy = circle.y - nearestY;
+  const touchPadding = 4;
 
-  return dx * dx + dy * dy < circle.radius * circle.radius;
+  return dx * dx + dy * dy <= (circle.radius + touchPadding) ** 2;
 }
 
 function createBurst(x, y, count = 22, particleColor = "#59d7ff") {
@@ -208,7 +208,7 @@ function createBurst(x, y, count = 22, particleColor = "#59d7ff") {
     particles.push({
       x,
       y,
-      vx: (Math.random() - 0.5) * 330,
+      vx: (Math.random() - 0.5) * 230,
       vy: (Math.random() - 0.5) * 330,
       life: 0.45 + Math.random() * 0.75,
       size: 2 + Math.random() * 4,
@@ -424,11 +424,8 @@ function update(dt) {
     particle.vy += 360 * dt;
     particle.life -= dt;
   }
-
   particles = particles.filter(p => p.life > 0);
-
   shake = Math.max(0, shake - dt * 38);
-
   updateHUD();
 }
 

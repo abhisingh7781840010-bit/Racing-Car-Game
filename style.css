@@ -144,12 +144,17 @@ button:hover {
   }
 
   .hud {
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    gap: 4px;
     flex-wrap: wrap;
     justify-content: center;
   }
 
   .hud div {
-    font-size: 12px;
+    padding: 6px 8px;
+    font-size: 11px;
   }
 }
 
@@ -158,15 +163,69 @@ button:hover {
     padding: 6px;
   }
 
+  .game-shell {
+    width: min(96vw, 900px);
+  }
+
+  canvas {
+    border-radius: 12px;
+  }
+
+  .hud {
+    top: 8px;
+    left: 8px;
+    right: 8px;
+    gap: 3px;
+  }
+
+  .hud div {
+    padding: 4px 6px;
+    font-size: 9px;
+    border-radius: 7px;
+  }
+
+  .overlay {
+    inset: 2px;
+  }
+
   .panel {
-    padding: 18px;
+    width: min(88%, 420px);
+    padding: 12px 14px;
   }
 
   .panel h1 {
-    font-size: 34px;
+    font-size: clamp(20px, 7vw, 30px);
+    letter-spacing: 1.5px;
+    margin-bottom: 6px;
+  }
+
+  .panel p {
+    font-size: 11px;
+    line-height: 1.4;
+    margin: 8px 0;
   }
 
   .controls-text {
     display: none;
+  }
+
+  button {
+    padding: 8px 14px;
+    margin-top: 6px;
+    font-size: 12px;
+    border-radius: 9px;
+    min-width: 90px;
+  }
+
+  .touch-controls {
+    bottom: 12px;
+    gap: 10px;
+  }
+
+  .touch-controls button {
+    width: 48px;
+    height: 42px;
+    font-size: 12px;
+    border-radius: 10px;
   }
 }
