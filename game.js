@@ -320,26 +320,11 @@ function drawBackground() {
   }
 }
 
-function drawCar(image, car, isPlayer = false) {
+function drawCar(image, car) {
   ctx.save();
 
   ctx.globalAlpha = 1;
 
-  // Shadow.
-  ctx.fillStyle = "rgba(0,0,0,.42)";
-  ctx.beginPath();
-  ctx.ellipse(
-    car.x + car.width / 2,
-    car.y + car.height * 0.54,
-    car.width * 0.47,
-    car.height * 0.47,
-    0,
-    0,
-    Math.PI * 2
-  );
-  ctx.fill();
-
-  // Uploaded PNG car image.
   ctx.drawImage(
     image,
     car.x,
@@ -353,9 +338,6 @@ function drawCar(image, car, isPlayer = false) {
 
 function drawPowerup(powerup) {
   ctx.save();
-
-  ctx.shadowBlur = 24;
-  ctx.shadowColor = "#59d7ff";
 
   ctx.fillStyle = "#59d7ff";
   ctx.beginPath();
@@ -450,6 +432,18 @@ function update(dt) {
   updateHUD();
 }
 
+function setInputState(key, pressed) {
+  const normalizedKey = key.toLowerCase();
+
+  if (["arrowleft", "a", "left"].includes(normalizedKey)) {
+    input.left = pressed;
+  }
+
+  if (["arrowright", "d", "right"].includes(normalizedKey)) {
+    input.right = pressed;
+  }
+}
+
 function render() {
   ctx.save();
 
@@ -470,7 +464,7 @@ function render() {
     drawCar(car.sprite || new Image(), car);
   }
 
-  drawCar(playerImage, player, true);
+  drawCar(playerImage, player);
 
   for (const particle of particles) {
     ctx.globalAlpha = Math.max(0, particle.life);
@@ -508,13 +502,7 @@ window.addEventListener("keydown", event => {
     event.preventDefault();
   }
 
-  if (event.key === "ArrowLeft" || event.key === "a" || event.key === "A") {
-    input.left = true;
-  }
-
-  if (event.key === "ArrowRight" || event.key === "d" || event.key === "D") {
-    input.right = true;
-  }
+  setInputState(event.key, true);
 
   if (event.key === "p" || event.key === "P") {
     pauseGame();
@@ -530,13 +518,7 @@ window.addEventListener("keydown", event => {
 });
 
 window.addEventListener("keyup", event => {
-  if (event.key === "ArrowLeft" || event.key === "a" || event.key === "A") {
-    input.left = false;
-  }
-
-  if (event.key === "ArrowRight" || event.key === "d" || event.key === "D") {
-    input.right = false;
-  }
+  setInputState(event.key, false);
 });
 
 // Mobile controls.
@@ -545,11 +527,11 @@ document.querySelectorAll(".touch-controls button").forEach(button => {
 
   const press = event => {
     event.preventDefault();
-    input[key] = true;
+    setInputState(key, true);
   };
 
   const release = () => {
-    input[key] = false;
+    setInputState(key, false);
   };
 
   button.addEventListener("pointerdown", press);
