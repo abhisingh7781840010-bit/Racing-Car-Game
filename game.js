@@ -86,8 +86,9 @@ const road = {
 
 const carAssets = [
   "racecar.png",
-  "racecar (1).png",
-  "bluecar.png"
+  "racecar(1).png",
+  
+  "race2.webp"
 ];
 
 const playerImageSrc = "racecar.png";
@@ -213,7 +214,7 @@ function circleHitsRect(circle, rect) {
   const nearestY = Math.max(rect.y, Math.min(circle.y, rect.y + rect.height));
   const dx = circle.x - nearestX;
   const dy = circle.y - nearestY;
-  const touchPadding = 4;
+  const touchPadding = 0;
 
   return dx * dx + dy * dy <= (circle.radius + touchPadding) ** 2;
 }
@@ -234,7 +235,6 @@ function createBurst(x, y, count = 22, particleColor = "#59d7ff") {
 
 function loseLife() {
   if (player.invincible > 0) return;
-
   playCrashSound();
 
   lives--;
@@ -359,23 +359,21 @@ function drawPowerup(powerup) {
   ctx.beginPath();
   ctx.arc(powerup.x, powerup.y, powerup.radius, 0, Math.PI * 2);
   ctx.fill();
-
   ctx.fillStyle = "#ffffff";
   ctx.font = "bold 17px Arial";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   ctx.fillText("⚡", powerup.x, powerup.y + 1);
-
   ctx.restore();
 }
 
 function update(dt) {
-  const highwaySpeed = 260 + level * 35;
+  const highwaySpeed = 300 + level * 35;
 
   roadOffset += highwaySpeed * dt;
   score += dt * (12 + level * 3);
 
-  level = 1 + Math.floor(score / 750);
+  level = 1 + Math.floor(score / 500);
 
   player.invincible = Math.max(0, player.invincible - dt);
 
@@ -440,9 +438,7 @@ function update(dt) {
     particle.vy += 360 * dt;
     particle.life -= dt;
   }
-  particles = particles.filter(p => p.life > 0);
-  shake = Math.max(0, shake - dt * 38);
-  updateHUD();
+  
 }
 
 function setInputState(key, pressed) {
@@ -460,12 +456,7 @@ function setInputState(key, pressed) {
 function render() {
   ctx.save();
 
-  if (shake > 0) {
-    ctx.translate(
-      (Math.random() - 0.5) * shake,
-      (Math.random() - 0.5) * shake
-    );
-  }
+  
 
   drawBackground();
 

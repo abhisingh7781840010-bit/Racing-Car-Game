@@ -215,11 +215,13 @@ button:hover {
     font-size: 12px;
     border-radius: 9px;
     min-width: 90px;
+    
   }
 
   .touch-controls {
     bottom: 12px;
     gap: 10px;
+    top: 230px;
   }
 
   .touch-controls button {
@@ -227,5 +229,6 @@ button:hover {
     height: 42px;
     font-size: 12px;
     border-radius: 10px;
+    top: 700px;
   }
 }
