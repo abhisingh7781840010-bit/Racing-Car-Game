@@ -121,7 +121,6 @@ let lastTime = 0;
 let roadOffset = 0;
 let trafficTimer = 0;
 let powerTimer = 0;
-let shake = 0;
 
 const player = {
   x: W / 2 - 31,
@@ -145,7 +144,6 @@ function resetGame() {
   roadOffset = 0;
   trafficTimer = 0.4;
   powerTimer = 3;
-  shake = 0;
 
   traffic = [];
   powerups = [];
@@ -239,7 +237,6 @@ function loseLife() {
 
   lives--;
   player.invincible = 1.5;
-  shake = 13;
 
   createBurst(
     player.x + player.width / 2,
@@ -438,6 +435,8 @@ function update(dt) {
     particle.vy += 360 * dt;
     particle.life -= dt;
   }
+
+  updateHUD();
   
 }
 
@@ -455,8 +454,6 @@ function setInputState(key, pressed) {
 
 function render() {
   ctx.save();
-
-  
 
   drawBackground();
 
